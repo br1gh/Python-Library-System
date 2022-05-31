@@ -64,9 +64,17 @@ def insert(arr, values):
     con.commit()
     con.close()
 
-def select():
+def no_join_select(arr):
     con = sqlite3.connect('library.db')
     cur = con.cursor()
-    data = cur.execute('select first_name, last_name, birth_date from authors').fetchall()
+    query = "SELECT " + arr[1][1:-1] + " FROM " + arr[0]
+    data = cur.execute(query).fetchall()
+    con.close()
+    return data
+
+def join_select(query):
+    con = sqlite3.connect('library.db')
+    cur = con.cursor()
+    data = cur.execute(query).fetchall()
     con.close()
     return data
