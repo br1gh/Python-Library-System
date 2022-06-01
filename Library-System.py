@@ -1,5 +1,3 @@
-import Files.Database
-import Files.GUI
 from tkinter import *
 from tkinter import ttk
 
@@ -16,33 +14,34 @@ inserts = {
 root = Tk()
 root.title('Library')
 root['bg'] = '#fff'
-controlTab = ttk.Notebook(root)
 
-authors = Frame(controlTab)
-books = Frame(controlTab)
-borrows = Frame(controlTab)
-copy = Frame(controlTab)
-genres = Frame(controlTab)
-readers = Frame(controlTab)
+buttonClicked = False
 
-Files.GUI.authors_tab(authors, inserts["authors"])
-Files.GUI.books_tab(books)
-Files.GUI.borrows_tab(borrows)
-Files.GUI.copy_tab(copy)
-Files.GUI.genres_tab(genres, inserts["genres"])
-Files.GUI.readers_tab(readers)
-
-controlTab.add(authors, text='Authors')
-controlTab.add(books, text='Books')
-controlTab.add(borrows, text='Borrows')
-controlTab.add(copy, text='Copies')
-controlTab.add(genres, text='Genres')
-controlTab.add(readers, text='Readers')
+def show(table):
+    print(exec(open("Files/Show/show_" + table + ".py").read()))
 
 
-controlTab.pack()
+show_authors = ttk.Button(root, text="Authors", command=lambda: show("authors"), width=20)
+show_authors.pack()
+
+show_books = ttk.Button(root, text="Books", command=lambda: show("books"), width=20)
+show_books.pack()
+
+show_borrows = ttk.Button(root, text="Borrows", command=lambda: show("borrows"), width=20)
+show_borrows.pack()
+
+show_copies = ttk.Button(root, text="Copies", command=lambda: show("copies"), width=20)
+show_copies.pack()
+
+show_genres = ttk.Button(root, text="Genres", command=lambda: show("genres"), width=20)
+show_genres.pack()
+
+show_readers = ttk.Button(root, text="Readers", command=lambda: show("readers"), width=20)
+show_readers.pack()
 
 
+
+# controlTab.pack()
 
 root.mainloop()
 

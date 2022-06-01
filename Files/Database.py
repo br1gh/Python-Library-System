@@ -1,5 +1,6 @@
 import sqlite3
 import os.path
+from pathlib import Path
 
 
 def create():
@@ -64,16 +65,8 @@ def insert(arr, values):
     con.commit()
     con.close()
 
-def no_join_select(arr):
-    con = sqlite3.connect('library.db')
-    cur = con.cursor()
-    query = "SELECT " + arr[1][1:-1] + " FROM " + arr[0]
-    data = cur.execute(query).fetchall()
-    con.close()
-    return data
-
-def join_select(query):
-    con = sqlite3.connect('library.db')
+def select(query):
+    con = sqlite3.connect(str(Path(__file__).parents[1]) + '\library.db')
     cur = con.cursor()
     data = cur.execute(query).fetchall()
     con.close()
