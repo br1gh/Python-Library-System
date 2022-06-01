@@ -10,6 +10,12 @@ query = "SELECT title, first_name, last_name, available FROM copy " \
 "INNER JOIN authors ON books.id_author = authors.id"
 x = Files.Database.select(query)
 authors_treeview = ttk.Treeview(show_authors)
+authors_treeview.pack(side='right')
+
+verscrlbar = ttk.Scrollbar(show_authors, orient="vertical", command=authors_treeview.yview)
+verscrlbar.pack(side='right', fill='y')
+
+authors_treeview.configure(yscrollcommand=verscrlbar.set)
 
 authors_treeview['columns'] = ('title', 'first_name', 'last_name', 'available')
 
@@ -28,5 +34,4 @@ authors_treeview.heading("available", text="Is available", anchor=CENTER)
 for i in x:
     authors_treeview.insert(parent='', index='end', text='', values=i)
 
-authors_treeview.pack()
 show_authors.mainloop()

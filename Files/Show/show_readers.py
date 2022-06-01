@@ -7,6 +7,12 @@ show_authors.title('Readers')
 
 query = "SELECT first_name, last_name, email, birth_date, city, street, house_number, phone FROM readers"
 x = Files.Database.select(query)
+authors_treeview.pack(side='right')
+
+verscrlbar = ttk.Scrollbar(show_authors, orient="vertical", command=authors_treeview.yview)
+verscrlbar.pack(side='right', fill='y')
+
+authors_treeview.configure(yscrollcommand=verscrlbar.set)
 
 authors_treeview = ttk.Treeview(show_authors)
 
@@ -35,5 +41,4 @@ authors_treeview.heading("phone", text="Phone", anchor=CENTER)
 for i in x:
     authors_treeview.insert(parent='', index='end', text='', values=i)
 
-authors_treeview.pack()
 show_authors.mainloop()
