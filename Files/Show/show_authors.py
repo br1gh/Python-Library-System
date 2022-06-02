@@ -8,27 +8,27 @@ show_authors.title('Authors')
 query = "SELECT first_name, last_name, birth_date FROM authors"
 
 x = Files.Database.select(query)
-authors_treeview = ttk.Treeview(show_authors)
-authors_treeview.pack(side='right')
+treeview = ttk.Treeview(show_authors)
+treeview.pack(side='right')
 
-verscrlbar = ttk.Scrollbar(show_authors, orient="vertical", command=authors_treeview.yview)
+verscrlbar = ttk.Scrollbar(show_authors, orient="vertical", command=treeview.yview)
 verscrlbar.pack(side='right', fill='y')
 
-authors_treeview.configure(yscrollcommand=verscrlbar.set)
+treeview.configure(yscrollcommand=verscrlbar.set)
 
-authors_treeview['columns'] = ('first_name', 'last_name', 'birth_date')
+treeview['columns'] = ('first_name', 'last_name', 'birth_date')
 
-authors_treeview.column("#0", width=0, stretch=NO)
-authors_treeview.column("first_name", anchor=CENTER, width=150)
-authors_treeview.column("last_name", anchor=CENTER, width=150)
-authors_treeview.column("birth_date", anchor=CENTER, width=150)
+treeview.column("#0", width=0, stretch=NO)
+treeview.column("first_name", anchor=CENTER, width=150)
+treeview.column("last_name", anchor=CENTER, width=150)
+treeview.column("birth_date", anchor=CENTER, width=150)
 
-authors_treeview.heading("#0", text="", anchor=CENTER)
-authors_treeview.heading("first_name", text="First Name", anchor=CENTER)
-authors_treeview.heading("last_name", text="Last Name", anchor=CENTER)
-authors_treeview.heading("birth_date", text="Birth Date", anchor=CENTER)
+treeview.heading("#0", text="", anchor=CENTER)
+treeview.heading("first_name", text="First Name", anchor=CENTER)
+treeview.heading("last_name", text="Last Name", anchor=CENTER)
+treeview.heading("birth_date", text="Birth Date", anchor=CENTER)
 
 for i in x:
-    authors_treeview.insert(parent='', index='end', text='', values=i)
+    treeview.insert(parent='', index='end', text='', values=i)
 
 show_authors.mainloop()
