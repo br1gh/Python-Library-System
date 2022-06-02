@@ -65,7 +65,7 @@ def insert(arr, values):
     con.commit()
     con.close()
 
-def select(query):
+def  select(query):
     con = sqlite3.connect(str(Path(__file__).parents[1]) + '\library.db')
     cur = con.cursor()
     data = cur.execute(query).fetchall()

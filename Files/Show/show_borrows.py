@@ -14,7 +14,10 @@ query = "SELECT readers.first_name, readers.last_name, borrow_date, return_date,
 
 x = Files.Database.select(query)
 treeview = ttk.Treeview(show_borrows)
-treeview.pack(side='right')
+treeview.pack(expand=True, side='left', fill='both')
+
+treeview.tag_configure('odd', background='#ddd')
+treeview.tag_configure('even', background='#eee')
 
 verscrlbar = ttk.Scrollbar(show_borrows, orient="vertical", command=treeview.yview)
 verscrlbar.pack(side='right', fill='y')
@@ -23,25 +26,24 @@ treeview.configure(yscrollcommand=verscrlbar.set)
 
 treeview['columns'] = ('reader_first_name', 'reader_last_name', 'borrow_date', 'return_date', 'title', 'author_first_name', 'author_last_name')
 
+columns = [
+    ["reader_first_name", "Reader first name"],
+    ["reader_last_name", "Reader last name"],
+    ["borrow_date", "Borrow date"],
+    ["return_date", "Return date"],
+    ["title", "Title"],
+    ["author_first_name", "Author first name"],
+    ["author_last_name", "Author last name"],
+]
+
 treeview.column("#0", width=0, stretch=NO)
-treeview.column("reader_first_name", anchor=CENTER, width=150)
-treeview.column("reader_last_name", anchor=CENTER, width=150)
-treeview.column("borrow_date", anchor=CENTER, width=150)
-treeview.column("return_date", anchor=CENTER, width=150)
-treeview.column("title", anchor=CENTER, width=150)
-treeview.column("author_first_name", anchor=CENTER, width=150)
-treeview.column("author_last_name", anchor=CENTER, width=150)
-
 treeview.heading("#0", text="", anchor=CENTER)
-treeview.heading("reader_first_name", text="Reader first name", anchor=CENTER)
-treeview.heading("reader_last_name", text="Reader last name", anchor=CENTER)
-treeview.heading("borrow_date", text="Borrow date", anchor=CENTER)
-treeview.heading("return_date", text="Return date", anchor=CENTER)
-treeview.heading("title", text="Title", anchor=CENTER)
-treeview.heading("author_first_name", text="Author first name", anchor=CENTER)
-treeview.heading("author_last_name", text="Author last name", anchor=CENTER)
 
-for i in x:
-    treeview.insert(parent='', index='end', text='', values=i)
+for i in columns:
+    treeview.column(i[0], anchor=CENTER, width=150)
+    treeview.heading(i[0], text=i[0], anchor=CENTER)
+
+for e, i in enumerate(x):
+    treeview.insert(parent='', index='end', text='', values=i, tags=('odd' if e % 2 == 0 else 'even'))
 
 show_borrows.mainloop()
