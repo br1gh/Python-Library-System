@@ -2,33 +2,37 @@ from tkinter import *
 from tkinter import ttk
 import Files.Database
 
-window = Tk()
-window.title('Books')
+user_borrows = Tk()
+user_borrows.title('Books')
 
-query = "SELECT title, page_number, first_name, last_name, name FROM books " \
+query = "SELECT borrow_date, return_date, title, name, first_name, last_name FROM borrows " \
+        "INNER JOIN copy ON copy.id = borrows.id_copy " \
+        "INNER JOIN books ON copy.id_book = books.id " \
         "INNER JOIN authors ON authors.id = books.id_author " \
         "INNER JOIN genres ON genres.id = books.id_genre"
 
+
 x = Files.Database.select(query)
-treeview = ttk.Treeview(window)
+treeview = ttk.Treeview(user_borrows)
 treeview.pack(expand=True, side='left', fill='both')
 
 treeview.tag_configure('odd', background='#ddd')
 treeview.tag_configure('even', background='#eee')
 
-verscrlbar = ttk.Scrollbar(window, orient="vertical", command=treeview.yview)
+verscrlbar = ttk.Scrollbar(user_borrows, orient="vertical", command=treeview.yview)
 verscrlbar.pack(side='right', fill='y')
 
 treeview.configure(yscrollcommand=verscrlbar.set)
 
-treeview['columns'] = ('title', 'page_number', 'first_name', 'last_name', 'name')
+treeview['columns'] = ('borrow_date', 'return_date', 'title', 'genre', 'author_first_name', 'author_last_name')
 
 columns = [
+    ["borrow_date", "Borrow date"],
+    ["return_date", "Return date"],
     ["title", "Title"],
-    ["page_number", "Number of pages"],
-    ["first_name", "Author first name"],
-    ["last_name", "Author last name"],
-    ["name", "Genre"]
+    ["genre", "Genre"],
+    ["author_first_name", "Author first name"],
+    ["author_last_name", "Author last name"]
 ]
 
 treeview.column("#0", width=0, stretch=NO)
@@ -41,4 +45,4 @@ for i in columns:
 for e, i in enumerate(x):
     treeview.insert(parent='', index='end', text='', values=i, tags=('odd' if e % 2 == 0 else 'even'))
 
-window.mainloop()
+user_borrows.mainloop()

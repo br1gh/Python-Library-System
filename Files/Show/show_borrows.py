@@ -2,8 +2,8 @@ from tkinter import *
 from tkinter import ttk
 import Files.Database
 
-show_borrows = Tk()
-show_borrows.title('Borrows')
+window = Tk()
+window.title('Borrows')
 
 query = "SELECT readers.first_name, readers.last_name, borrow_date, return_date, title, authors.first_name, authors.last_name " \
                "FROM borrows " \
@@ -13,13 +13,13 @@ query = "SELECT readers.first_name, readers.last_name, borrow_date, return_date,
                "INNER JOIN authors ON books.id_author = authors.id"
 
 x = Files.Database.select(query)
-treeview = ttk.Treeview(show_borrows)
+treeview = ttk.Treeview(window)
 treeview.pack(expand=True, side='left', fill='both')
 
 treeview.tag_configure('odd', background='#ddd')
 treeview.tag_configure('even', background='#eee')
 
-verscrlbar = ttk.Scrollbar(show_borrows, orient="vertical", command=treeview.yview)
+verscrlbar = ttk.Scrollbar(window, orient="vertical", command=treeview.yview)
 verscrlbar.pack(side='right', fill='y')
 
 treeview.configure(yscrollcommand=verscrlbar.set)
@@ -46,4 +46,4 @@ for i in columns:
 for e, i in enumerate(x):
     treeview.insert(parent='', index='end', text='', values=i, tags=('odd' if e % 2 == 0 else 'even'))
 
-show_borrows.mainloop()
+window.mainloop()

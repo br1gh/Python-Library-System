@@ -2,20 +2,20 @@ from tkinter import *
 from tkinter import ttk
 import Files.Database
 
-show_authors = Tk()
-show_authors.title('Authors')
+window = Tk()
+window.title('Authors')
 
 query = "SELECT first_name, last_name, birth_date FROM authors"
 
 x = Files.Database.select(query)
-treeview = ttk.Treeview(show_authors)
+treeview = ttk.Treeview(window)
 
 treeview.tag_configure('odd', background='#ddd')
 treeview.tag_configure('even', background='#eee')
 
 treeview.pack(expand=True, side='left', fill='both')
 
-verscrlbar = ttk.Scrollbar(show_authors, orient="vertical", command=treeview.yview)
+verscrlbar = ttk.Scrollbar(window, orient="vertical", command=treeview.yview)
 verscrlbar.pack(side='right', fill='y')
 
 treeview.configure(yscrollcommand=verscrlbar.set)
@@ -37,4 +37,4 @@ for i in columns:
 for e, i in enumerate(x):
     treeview.insert(parent='', index='end', text='', values=i, tags=('odd' if e % 2 == 0 else 'even'))
 
-show_authors.mainloop()
+window.mainloop()

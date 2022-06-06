@@ -1,3 +1,4 @@
+import datetime
 from tkinter import *
 from tkinter import ttk
 import Files.Database
@@ -16,36 +17,48 @@ inserts = {
 Files.Database.create()
 
 root = Tk()
+root.resizable(0, 0)
+root.configure(background="#1c1c1c")
 root.title('Library')
-root['bg'] = '#fff'
 
 buttonClicked = False
 
-def show(table):
-    print(exec(open("Files/Show/show_" + table + ".py").read()))
+full_date = datetime.datetime.now()
+date = [int(full_date.strftime("%" + i)) for i in ["y", "m", "d"]]
 
+def open_file(table, dir):
+    print(exec(open("Files/" + dir + "/" + table + ".py").read()))
 
-label = Label(root,text="Select table to show:", width=40,  height=2)
-label.pack()
+def generate_label(root, text, bg,col):
+    Label(root, text=text, width=40, bg=bg, fg="#fff") \
+        .grid(row=0, column=col, columnspan=2, sticky=W + E, padx=(20, 20), pady=(20, 0), ipadx=5, ipady=5)
 
+show_content = generate_label(root, "Show content", "#0D47A1", 0)
+add_content = generate_label(root, "Add content", "#B71C1C", 2)
+user = generate_label(root, "User", "#1B5E20", 4)
 
-show_authors = ttk.Button(root, text="Authors", command=lambda: show("authors"), width=40)
-show_authors.pack()
+def generate_button(text, file, bg, fg, dir, row, col):
+    return Button(root, text=text, command=lambda: open_file(file, dir), width=40, bg=bg, fg=fg)\
+        .grid(row=row, column=col, columnspan=2, sticky=W+E, padx=(20, 20), pady=(20, 0), ipadx=5, ipady=5)
 
-show_books = ttk.Button(root, text="Books", command=lambda: show("books"), width=40)
-show_books.pack()
+show_authors_button = generate_button("Show authors", "show_authors", "#1976D2", "#fff", "Show", 1, 0)
+show_books_button = generate_button("Show books", "show_books", "#1976D2", "#fff", "Show", 2, 0)
+show_borrows_button = generate_button("Show borrows", "show_borrows", "#1976D2", "#fff", "Show", 3, 0)
+show_copies_button = generate_button("Show copies", "show_copies", "#1976D2", "#fff", "Show", 4, 0)
+show_genres_button = generate_button("Show genres", "show_genres", "#1976D2", "#fff", "Show", 5, 0)
+show_readers_button = generate_button("Show readers", "show_readers", "#1976D2", "#fff", "Show", 6, 0)
 
-show_borrows = ttk.Button(root, text="Borrows", command=lambda: show("borrows"), width=40)
-show_borrows.pack()
+insert_authors_button = generate_button("Add author", "insert_authors","#D32F2F", "#fff", "Insert",  1, 2)
+insert_books_button = generate_button("Add book", "insert_books","#D32F2F", "#fff", "Insert",  2, 2)
+insert_copies_button = generate_button("Add copy", "insert_copies","#D32F2F", "#fff", "Insert",  3, 2)
+insert_genres_button = generate_button("Add genre", "insert_genre","#D32F2F", "#fff", "Insert",  4, 2)
 
-show_copies = ttk.Button(root, text="Copies", command=lambda: show("copies"), width=40)
-show_copies.pack()
+register_button = generate_button("Register", "register_user","#388E3C", "#fff", "User",  1, 4)
+login_button = generate_button("Login", "login_user","#388E3C", "#fff", "User",  2, 4)
 
-show_genres = ttk.Button(root, text="Genres", command=lambda: show("genres"), width=40)
-show_genres.pack()
-
-show_readers = ttk.Button(root, text="Readers", command=lambda: show("readers"), width=40)
-show_readers.pack()
+#
+# book_boorow_button = generate_button("Borrow book", "book_borrow", "Insert", 1, 4)
+# book_return_button = generate_button("Reuturn book", "book_return", "Insert", 2, 4)
 
 root.mainloop()
 

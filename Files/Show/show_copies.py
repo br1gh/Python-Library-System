@@ -2,20 +2,20 @@ from tkinter import *
 from tkinter import ttk
 import Files.Database
 
-show_copies = Tk()
-show_copies.title('Copies')
+window = Tk()
+window.title('Copies')
 
 query = "SELECT title, first_name, last_name, available FROM copy " \
 "INNER JOIN books ON books.id = copy.id_book " \
 "INNER JOIN authors ON books.id_author = authors.id"
 x = Files.Database.select(query)
-treeview = ttk.Treeview(show_copies)
+treeview = ttk.Treeview(window)
 treeview.pack(expand=True, side='left', fill='both')
 
 treeview.tag_configure('odd', background='#ddd')
 treeview.tag_configure('even', background='#eee')
 
-verscrlbar = ttk.Scrollbar(show_copies, orient="vertical", command=treeview.yview)
+verscrlbar = ttk.Scrollbar(window, orient="vertical", command=treeview.yview)
 verscrlbar.pack(side='right', fill='y')
 
 treeview.configure(yscrollcommand=verscrlbar.set)
@@ -38,4 +38,4 @@ for i in columns:
 for e, i in enumerate(x):
     treeview.insert(parent='', index='end', text='', values=i, tags=('odd' if e % 2 == 0 else 'even'))
 
-show_copies.mainloop()
+window.mainloop()

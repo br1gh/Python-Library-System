@@ -6,9 +6,10 @@ from tkcalendar import DateEntry
 import datetime
 import Files.Database
 
-insert_books = Tk()
-insert_books.title('Add new book')
-insert_books.configure(background="#bbb")
+window = Tk()
+window.resizable(0, 0)
+window.title('Add new book')
+window.configure(background="#1c1c1c")
 
 labels = [
     "Title:",
@@ -25,30 +26,31 @@ genres = Files.Database.select(query_authors)
 
 for e, i in enumerate(labels):
     Label(
-        insert_books,
+        window,
         text=labels[e],
-        bg='#bbb',
+        bg='#1c1c1c',
+        fg="#fff",
     ).grid(row=e, column=0, sticky=W, padx=(20, 0), pady=(20, 0))
 
 
-title = Entry(insert_books, width=40).grid(row=0, column=1, padx=(20, 20), pady=(20,0), ipadx=5, ipady=5)
-number_of_pages = Entry(insert_books, width=40).grid(row=1, column=1, padx=(20, 20), pady=(20,0), ipadx=5, ipady=5)
+title = Entry(window, width=40).grid(row=0, column=1, padx=(20, 20), pady=(20,0), ipadx=5, ipady=5)
+number_of_pages = Entry(window, width=40).grid(row=1, column=1, padx=(20, 20), pady=(20,0), ipadx=5, ipady=5)
 
 default_author = StringVar()
 default_author.set(authors[0][1:3])
 
-author = Combobox(insert_books,textvariable=default_author, values=[i[1:3] for i in authors])
+author = Combobox(window,textvariable=default_author, values=[i[1:3] for i in authors])
 author.config(width=37)
 author.grid(row=2, column=1,sticky=W, padx=(20, 20), pady=(20, 0), ipadx=5, ipady=5)
 
 default_genre = StringVar()
 default_genre.set(genres[0][1:3])
 
-genre = Combobox(insert_books,textvariable=default_genre, values=[i[1:3] for i in genres])
+genre = Combobox(window,textvariable=default_genre, values=[i[1:3] for i in genres])
 genre.config(width=37)
 genre.grid(row=3, column=1,sticky=W, padx=(20, 20), pady=(20, 0), ipadx=5, ipady=5)
 
 
-button = ttk.Button(insert_books, text="Add").grid(row=4, column=0, columnspan=2, sticky=W+E, padx=(20, 20), pady=(20, 20), ipadx=5, ipady=5)
+button = Button(window, text="Add", bg="#007bff", fg="#fff").grid(row=4, column=0, columnspan=2, sticky=W+E, padx=(20, 20), pady=(20, 20), ipadx=5, ipady=5)
 
-insert_books.mainloop()
+window.mainloop()

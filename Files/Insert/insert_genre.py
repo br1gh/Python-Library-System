@@ -6,9 +6,10 @@ from tkcalendar import DateEntry
 import datetime
 import Files.Database
 
-insert_books = Tk()
-insert_books.title('Add new genre')
-insert_books.configure(background="#bbb")
+window = Tk()
+window.resizable(0, 0)
+window.title('Add new genre')
+window.configure(background="#1c1c1c")
 
 labels = [
     "Genre:",
@@ -16,14 +17,15 @@ labels = [
 
 for e, i in enumerate(labels):
     Label(
-        insert_books,
+        window,
         text=labels[e],
-        bg='#bbb',
+        bg='#1c1c1c',
+        fg="#fff",
     ).grid(row=e, column=0, sticky=W, padx=(20, 0), pady=(20, 0))
 
 
-genre = Entry(insert_books, width=40).grid(row=0, column=1, padx=(20, 20), pady=(20,0), ipadx=5, ipady=5)
+genre = Entry(window, width=40).grid(row=0, column=1, padx=(20, 20), pady=(20,0), ipadx=5, ipady=5)
 
-button = ttk.Button(insert_books, text="Add").grid(row=4, column=0, columnspan=2, sticky=W+E, padx=(20, 20), pady=(20, 20), ipadx=5, ipady=5)
+button = Button(window, text="Add", bg="#007bff", fg="#fff").grid(row=4, column=0, columnspan=2, sticky=W+E, padx=(20, 20), pady=(20, 20), ipadx=5, ipady=5)
 
-insert_books.mainloop()
+window.mainloop()
