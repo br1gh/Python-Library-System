@@ -38,11 +38,11 @@ email = generate_entry(login_window, 0)
 login = generate_entry(login_window, 1)
 password = generate_entry(login_window, 2, "*")
 
-def show_options(ok):
-    ok.destroy()
-    exec(open("options.py").read())
+def show_options():
+    path = "Files/User/options.py" if "Library-System.py" in __file__ else "options.py"
+    exec(open(path).read())
 
 
-button = Button(login_window, text="Login", command=lambda:show_options(login_window) ,bg="#007bff", fg="#fff").grid(row=11, column=0, columnspan=2, sticky=W+E, padx=(20, 20), pady=(20, 20), ipadx=5, ipady=5)
+button = Button(login_window, text="Login", command=show_options ,bg="#007bff", fg="#fff").grid(row=11, column=0, columnspan=2, sticky=W+E, padx=(20, 20), pady=(20, 20), ipadx=5, ipady=5)
 
 login_window.mainloop()
