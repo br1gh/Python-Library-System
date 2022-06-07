@@ -5,12 +5,12 @@ import Files.Database
 user_borrows = Tk()
 user_borrows.title('Books')
 
-query = "SELECT borrow_date, return_date, title, name, first_name, last_name FROM borrows " \
+query = "SELECT id_reader, borrow_date, return_date, title, name, authors.first_name, authors.last_name FROM borrows " \
         "INNER JOIN copy ON copy.id = borrows.id_copy " \
         "INNER JOIN books ON copy.id_book = books.id " \
         "INNER JOIN authors ON authors.id = books.id_author " \
-        "INNER JOIN genres ON genres.id = books.id_genre"
-
+        "INNER JOIN genres ON genres.id = books.id_genre " \
+        "INNER JOIN readers on readers.id = borrows.id_reader WHERE id_reader=1"
 
 x = Files.Database.select(query)
 treeview = ttk.Treeview(user_borrows)

@@ -26,10 +26,8 @@ buttonClicked = False
 full_date = datetime.datetime.now()
 date = [int(full_date.strftime("%" + i)) for i in ["y", "m", "d"]]
 
-def open_file(table, dir):
-    print(exec(open("Files/" + dir + "/" + table + ".py").read()))
 
-def generate_label(root, text, bg,col):
+def generate_label(root, text, bg, col):
     Label(root, text=text, width=40, bg=bg, fg="#fff") \
         .grid(row=0, column=col, columnspan=2, sticky=W + E, padx=(20, 20), pady=(20, 0), ipadx=5, ipady=5)
 
@@ -38,7 +36,7 @@ add_content = generate_label(root, "Add content", "#B71C1C", 2)
 user = generate_label(root, "User", "#1B5E20", 4)
 
 def generate_button(text, file, bg, fg, dir, row, col):
-    return Button(root, text=text, command=lambda: open_file(file, dir), width=40, bg=bg, fg=fg)\
+    return Button(root, text=text, command=lambda: exec(open("Files/" + dir + "/" + file + ".py").read()), width=40, bg=bg, fg=fg)\
         .grid(row=row, column=col, columnspan=2, sticky=W+E, padx=(20, 20), pady=(20, 0), ipadx=5, ipady=5)
 
 show_authors_button = generate_button("Show authors", "show_authors", "#1976D2", "#fff", "Show", 1, 0)
