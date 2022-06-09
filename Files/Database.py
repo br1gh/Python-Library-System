@@ -57,10 +57,16 @@ def create():
     else:
         print('Database already exists')
 
-def insert(arr, values):
-    con = sqlite3.connect('library.db')
+def insert(table, columns, values, file):
+    db_path = ''
+    x = Path(file)
+    dir = str(x.parents[0]).split('\\')[-1]
+    if dir == 'Insert':
+        db_path = str(x.parents[2])
+
+    con = sqlite3.connect(db_path + '\library.db')
     cur = con.cursor()
-    query = ("INSERT INTO " + arr[0] + arr[1] + " VALUES(" + str(values)[1:-1] + ")")
+    query = ("INSERT INTO " + table + columns + " VALUES(" + str(values)[1:-1] + ")")
     cur.execute(query)
     con.commit()
     con.close()
