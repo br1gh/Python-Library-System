@@ -24,8 +24,14 @@ for e, i in enumerate(labels):
     ).grid(row=e, column=0, sticky=W, padx=(20, 0), pady=(20, 0))
 
 
-genre = Entry(window, width=40).grid(row=0, column=1, padx=(20, 20), pady=(20,0), ipadx=5, ipady=5)
+def insert(event=None):
+    Files.Database.insert("genres", "(name)", [genre.get()], __file__)
 
-button = Button(window, text="Add", bg="#007bff", fg="#fff").grid(row=4, column=0, columnspan=2, sticky=W+E, padx=(20, 20), pady=(20, 20), ipadx=5, ipady=5)
+genre = Entry(window, bg='#282828', fg="#eee", insertbackground="#eee", width=40)
+genre.focus()
+genre.grid(row=0, column=1, sticky=W, padx=(20, 20), pady=(20, 0), ipadx=5, ipady=5)
+
+button1 = Button(window, command=insert, text="Add", bg="#007bff", fg="#fff").grid(row=4, column=0, columnspan=2, sticky=W+E, padx=(20, 20), pady=(20, 20), ipadx=5, ipady=5)
+window.bind('<Return>', insert)
 
 window.mainloop()

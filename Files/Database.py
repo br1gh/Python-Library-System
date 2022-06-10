@@ -29,7 +29,7 @@ def create():
 
         cur.execute('''CREATE TABLE genres(
             id INTEGER PRIMARY KEY autoincrement,
-            name varchar)''')
+            name varchar unique)''')
 
         cur.execute('''CREATE TABLE books(
             id INTEGER PRIMARY KEY autoincrement,
@@ -61,7 +61,7 @@ def insert(table, columns, values, file):
     db_path = ''
     x = Path(file)
     dir = str(x.parents[0]).split('\\')[-1]
-    if dir == 'Insert':
+    if dir in ['User', 'Insert']:
         db_path = str(x.parents[2])
 
     con = sqlite3.connect(db_path + '\library.db')

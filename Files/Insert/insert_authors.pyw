@@ -27,14 +27,14 @@ for e, i in enumerate(labels):
 def insert(event=None):
     Files.Database.insert("authors", "(first_name, last_name, birth_date)", [first_name.get(), last_name.get(), birth_date.get()], __file__)
 
-first_name = Entry(window)
+first_name = Entry(window, bg='#282828', fg="#eee", insertbackground="#eee", width=40)
 first_name.focus()
 first_name.grid(row=0, column=1, sticky=W, padx=(20, 20), pady=(20, 0), ipadx=5, ipady=5)
 
-last_name = Entry(window)
+last_name = Entry(window, bg='#282828', fg="#eee", insertbackground="#eee", width=40)
 last_name.grid(row=1, column=1, sticky=W, padx=(20, 20), pady=(20, 0), ipadx=5, ipady=5)
 
-birth_date = DateEntry(window)
+birth_date = DateEntry(window, bg='#282828', width=37, date_pattern='YYYY-MM-DD')
 birth_date.grid(row=2, column=1, sticky=W, padx=(20, 20), pady=(20, 0), ipadx=5, ipady=5)
 
 button1 = Button(window, command=insert, text="Add", bg="#007bff", fg="#fff").grid(row=4, column=0, columnspan=2, sticky=W+E, padx=(20, 20), pady=(20, 20), ipadx=5, ipady=5)
