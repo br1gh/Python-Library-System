@@ -5,8 +5,6 @@ from tkinter import ttk
 import Files.Database
 #
 inserts = {
-    "books": ["books", "(id_author, id_genre, title, page_number)"],
-    "copy": ["copy", "(id_book, available)"],
     "borrows": ["borrows", "(id_reader, id_copy, borrow_date, return_date)"]
 }
 
@@ -61,7 +59,7 @@ register_button = Button(root, command=lambda: os.system("start pythonw Files/Us
 register_button.configure(text="Register", width=40, bg="#388E3C", fg="#fff")
 register_button.grid(row=1, column=4, sticky=W, padx=(20, 20), pady=(20, 0), ipadx=5, ipady=5)
 
-register_button = Button(root, command=lambda: os.system("start pythonw Files/User/login_user.pyw"))
+register_button = Button(root, command=lambda: os.system("start pythonw Files/User/login.pyw"))
 register_button.configure(text="Login", width=40, bg="#388E3C", fg="#fff")
 register_button.grid(row=2, column=4, sticky=W, padx=(20, 20), pady=(20, 0), ipadx=5, ipady=5)
 
