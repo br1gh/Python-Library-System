@@ -1,33 +1,34 @@
 from tkinter import *
-from tkinter import ttk
-from tkinter.ttk import Combobox
-
-from tkcalendar import DateEntry
-import datetime
+from tkinter import messagebox as msbox
 import Files.Database
 
 window = Tk()
-window.resizable(0, 0)
+window.resizable(False, False)
 window.title('Add new genre')
-window.configure(background="#1c1c1c")
 
 labels = [
     "Genre:",
 ]
 
+query = "SELECT name FROM genres"
+genres = [''.join(i) for i in Files.Database.select(query)]
+
 for e, i in enumerate(labels):
     Label(
         window,
         text=labels[e],
-        bg='#1c1c1c',
-        fg="#fff",
     ).grid(row=e, column=0, sticky=W, padx=(20, 0), pady=(20, 0))
 
 
 def insert(event=None):
-    Files.Database.insert("genres", "(name)", [genre.get()], __file__)
+    if genre.get() in genres:
+        msbox.showinfo('Error', 'This genre already exists')
+    else:
+        Files.Database.insert("genres", "(name)", [genre.get()], __file__)
+        msbox.showinfo('Success', 'Genre added')
 
-genre = Entry(window, bg='#282828', fg="#eee", insertbackground="#eee", width=40)
+
+genre = Entry(window, width=40)
 genre.focus()
 genre.grid(row=0, column=1, sticky=W, padx=(20, 20), pady=(20, 0), ipadx=5, ipady=5)
 

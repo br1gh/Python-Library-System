@@ -47,8 +47,8 @@ def create():
              id INTEGER PRIMARY KEY autoincrement,
              id_reader int REFERENCES readers(id),
              id_copy int REFERENCES copy(id),
-             borrow_date date,
-             return_date date)''')
+             borrow_date smalldatetime,
+             return_date smalldatetime)''')
 
         con.commit()
         print('Database created')
@@ -67,6 +67,34 @@ def insert(table, columns, values, file):
     con = sqlite3.connect(db_path + '\library.db')
     cur = con.cursor()
     query = ("INSERT INTO " + table + columns + " VALUES(" + str(values)[1:-1] + ")")
+    cur.execute(query)
+    con.commit()
+    con.close()
+
+def update_copy_available(id, value, file):
+    db_path = ''
+    x = Path(file)
+    dir = str(x.parents[0]).split('\\')[-1]
+    if dir in ['User', 'Insert']:
+        db_path = str(x.parents[2])
+
+    con = sqlite3.connect(db_path + '\library.db')
+    cur = con.cursor()
+    query = ("UPDATE copy SET available = " + str(value) + " WHERE id = " + str(id))
+    cur.execute(query)
+    con.commit()
+    con.close()
+
+def update_return_date(id, date, file):
+    db_path = ''
+    x = Path(file)
+    dir = str(x.parents[0]).split('\\')[-1]
+    if dir in ['User', 'Insert']:
+        db_path = str(x.parents[2])
+
+    con = sqlite3.connect(db_path + '\library.db')
+    cur = con.cursor()
+    query = ("UPDATE borrows SET return_date = '" + str(date) + "' WHERE id = " + str(id))
     cur.execute(query)
     con.commit()
     con.close()

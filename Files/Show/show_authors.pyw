@@ -32,7 +32,7 @@ treeview.heading("#0", text="", anchor=CENTER)
 
 for i in columns:
     treeview.column(i[0], anchor=CENTER, width=150)
-    treeview.heading(i[0], text=i[0], anchor=CENTER)
+    treeview.heading(i[0], text=i[1], anchor=CENTER)
 
 for e, i in enumerate(x):
     treeview.insert(parent='', index='end', text='', values=i, tags=('odd' if e % 2 == 0 else 'even'))

@@ -1,29 +1,33 @@
 from tkinter import *
-from tkinter import ttk
 from tkinter.ttk import Combobox
 from tkinter import messagebox as msbox
-from tkcalendar import DateEntry
-import datetime
 import Files.Database
 
 window = Tk()
-window.resizable(0, 0)
+window.resizable(False, False)
 window.title('Add new copy')
-window.configure(background="#1c1c1c")
+
 
 def insert_copies():
     if not books or not book.get():
-        msbox.showinfo('Error', "Author field is required! Add the new one if it's disabled")
+        msbox.showinfo('Error', "Book field is required! Add the new one if it's disabled")
     else:
-        try:
-            x = int(amount.get())
-        except:
-            msbox.showinfo('Error', 'Amount field must be a number')
+        if not amount.get():
+            msbox.showinfo('Error', "Amount field is required!")
         else:
-            for _ in range(x):
-                Files.Database.insert(
-                    "copy", "(id_book, available)", [list_of_books[book.get()], 1], __file__)
-            msbox.showinfo('Success', 'Added ' + str(x) + ' copies of this book')
+            try:
+                x = int(amount.get())
+            except:
+                msbox.showinfo('Error', 'Amount field must be an integer')
+            else:
+                if x < 1:
+                    msbox.showinfo('Error', 'Amount field must greater than 0')
+                else:
+                    for _ in range(x):
+                        Files.Database.insert(
+                            "copy", "(id_book, available)", [list_of_books[book.get()], 1], __file__)
+                    msbox.showinfo('Success', 'Added ' + str(x) + ' copies of this book')
+
 
 labels = [
     "Book:",
@@ -39,13 +43,9 @@ for e, i in enumerate(labels):
     Label(
         window,
         text=labels[e],
-        bg='#1c1c1c',
-        fg="#fff",
     ).grid(row=e, column=0, sticky=W, padx=(20, 0), pady=(20, 0))
 
 
-title = Entry(window, width=40)
-title.grid(row=0, column=1, padx=(20, 20), pady=(20,0), ipadx=5, ipady=5)
 amount = Entry(window, width=40)
 amount.grid(row=1, column=1, padx=(20, 20), pady=(20,0), ipadx=5, ipady=5)
 
@@ -62,7 +62,7 @@ if books:
 else:
     book = Combobox(window, state='disabled')
     book.config(width=37)
-    book.grid(row=2, column=1, sticky=W, padx=(20, 20), pady=(20, 0), ipadx=5, ipady=5)
+    book.grid(row=0, column=1, sticky=W, padx=(20, 20), pady=(20, 0), ipadx=5, ipady=5)
 
 
 button = Button(window, command=insert_copies, text="Add copy", bg="#007bff", fg="#fff").grid(row=11, column=0, columnspan=2, sticky=W+E, padx=(20, 20), pady=(20, 20), ipadx=5, ipady=5)

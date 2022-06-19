@@ -6,13 +6,10 @@ import datetime
 import Files.Database
 
 
-
-
 window = Tk()
-window.resizable(0, 0)
+window.resizable(False, False)
 window.title('Register')
-window.configure(background="#b3b3b3")
-#
+
 labels = [
     "Email:",
     "Login:",
@@ -36,12 +33,14 @@ for e, i in enumerate(labels):
     Label(
         window,
         text=labels[e],
-        bg='#b3b3b3',
     ).grid(row=e, column=0, sticky=W, padx=(20, 0), pady=(20, 0))
 
 def insert(event=None):
-    if len(password.get()) < 5:
-        msbox.showinfo('Register Error', 'Pasword must be at least 5 characters')
+    if not all([email.get(), login.get(), password.get(), first_name.get(), last_name.get(), birth_date.get(), city.get(), street.get(), house_number.get(), phone.get()]):
+        msbox.showinfo('Register Error', 'All fields are required')
+
+    elif len(password.get()) < 5:
+        msbox.showinfo('Register Error', 'Password must be at least 5 characters')
 
     elif password.get() != confirm_password.get():
         msbox.showinfo('Register Error', 'Password does not match confirmation')
@@ -66,10 +65,7 @@ def insert(event=None):
         msbox.showinfo('Register Success', 'Account created')
 
 
-full_date = datetime.datetime.now()
-date = [int(full_date.strftime("%" + i)) for i in ["y", "m", "d"]]
-
-email = Entry(window, width=40)
+email = Entry(window, width=40,)
 email.focus()
 email.grid(row=0, column=1, sticky=W, padx=(20, 20), pady=(20, 0), ipadx=5, ipady=5)
 
@@ -103,8 +99,8 @@ house_number.grid(row=9, column=1, sticky=W, padx=(20, 20), pady=(20, 0), ipadx=
 phone = Entry(window, width=40)
 phone.grid(row=10, column=1, sticky=W, padx=(20, 20), pady=(20, 0), ipadx=5, ipady=5)
 
-
-button = Button(window, command=insert, text="Register", bg="#007bff", fg="#fff").grid(row=11, column=0, columnspan=2, sticky=W+E, padx=(20, 20), pady=(20, 20), ipadx=5, ipady=5)
+button = Button(window, command=insert, text="Register", bg="#007bff", fg="#fff")
+button.grid(row=11, column=0, columnspan=2, sticky=W+E, padx=(20, 20), pady=(20, 20), ipadx=5, ipady=5)
 window.bind('<Return>', insert)
 
 window.mainloop()
