@@ -2,9 +2,7 @@ import re
 from tkinter import *
 from tkinter import messagebox as msbox
 from tkcalendar import DateEntry
-import datetime
 import Files.Database
-
 
 window = Tk()
 window.resizable(False, False)
@@ -24,10 +22,11 @@ labels = [
     "Phone:",
 ]
 
-query1 = "SELECT login FROM readers"
-query2 = "SELECT email FROM readers"
-logins = [''.join(i) for i in Files.Database.select(query1)]
-emails = [''.join(i) for i in Files.Database.select(query2)]
+logins_query = "SELECT login FROM readers"
+emails_query = "SELECT email FROM readers"
+
+logins = [''.join(i) for i in Files.Database.select(logins_query)]
+emails = [''.join(i) for i in Files.Database.select(emails_query)]
 
 for e, i in enumerate(labels):
     Label(
@@ -35,34 +34,47 @@ for e, i in enumerate(labels):
         text=labels[e],
     ).grid(row=e, column=0, sticky=W, padx=(20, 0), pady=(20, 0))
 
-def insert(event=None):
-    if not all([email.get(), login.get(), password.get(), first_name.get(), last_name.get(), birth_date.get(), city.get(), street.get(), house_number.get(), phone.get()]):
-        msbox.showinfo('Register Error', 'All fields are required')
+def insert():
+    values = [
+        email.get(), login.get(), first_name.get(), last_name.get(),
+        birth_date.get(), city.get(), street.get(), house_number.get(), phone.get()
+    ]
 
-    elif len(password.get()) < 5:
-        msbox.showinfo('Register Error', 'Password must be at least 5 characters')
+    pw_values = [
+        password.get(), confirm_password.get()
+    ]
 
-    elif password.get() != confirm_password.get():
-        msbox.showinfo('Register Error', 'Password does not match confirmation')
+    if not all(values + pw_values):
+        msbox.showerror('Error', 'All fields are required')
 
-    elif len(login.get()) < 5:
-        msbox.showinfo('Register Error', 'Login must be at least 5 characters')
+    elif len(pw_values[0]) < 5:
+        msbox.showerror('Error', 'Password must be at least 5 characters')
 
-    elif login.get() in logins:
-        msbox.showinfo('Register Error', 'Login is taken')
+    elif pw_values[0] != pw_values[1]:
+        msbox.showerror('Error', 'Password does not match confirmation')
 
-    elif not re.match(pattern=r"(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)", string=email.get()):
-        msbox.showinfo('Register Error', 'Email address is incorrect')
+    elif len(values[1]) < 5:
+        msbox.showerror('Error', 'Login must be at least 5 characters')
 
-    elif email.get() in emails:
-        msbox.showinfo('Register Error', 'Email is taken')
+    elif values[1] in logins:
+        msbox.showerror('Error', 'Login is taken')
+
+    elif not re.match(pattern=r"(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)", string=values[0]):
+        msbox.showerror('Error', 'Email address is incorrect')
+
+    elif values[0] in emails:
+        msbox.showerror('Error', 'Email is taken')
 
     else:
-        Files.Database.insert(
-            "readers", "(email, login, password, first_name, last_name, birth_date, city, street, house_number, phone)",
-            [email.get(), login.get(), password.get(), first_name.get(), last_name.get(), birth_date.get(), city.get(), street.get(), house_number.get(), phone.get()],
-            __file__)
-        msbox.showinfo('Register Success', 'Account created')
+        try:
+            Files.Database.insert(
+                "readers",
+                "(password, email, login, first_name, last_name, birth_date, city, street, house_number, phone)",
+                pw_values[:1] + values,
+                __file__)
+            msbox.showinfo('Success', 'Account created')
+        except:
+            msbox.showerror('Error', 'Something went wrong')
 
 
 email = Entry(window, width=40,)
@@ -99,8 +111,8 @@ house_number.grid(row=9, column=1, sticky=W, padx=(20, 20), pady=(20, 0), ipadx=
 phone = Entry(window, width=40)
 phone.grid(row=10, column=1, sticky=W, padx=(20, 20), pady=(20, 0), ipadx=5, ipady=5)
 
-button = Button(window, command=insert, text="Register", bg="#007bff", fg="#fff")
-button.grid(row=11, column=0, columnspan=2, sticky=W+E, padx=(20, 20), pady=(20, 20), ipadx=5, ipady=5)
+register_btn = Button(window, command=insert, text="Register", bg="#1B5E20", fg="#fff")
+register_btn.grid(row=11, column=0, columnspan=2, sticky=W+E, padx=(20, 20), pady=(20, 20), ipadx=5, ipady=5)
 window.bind('<Return>', insert)
 
 window.mainloop()

@@ -6,6 +6,7 @@ window = Tk()
 window.title('Readers')
 
 query = "SELECT first_name, last_name, email, birth_date, city, street, house_number, phone FROM readers"
+
 x = Files.Database.select(query)
 treeview = ttk.Treeview(window)
 

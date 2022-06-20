@@ -23,9 +23,9 @@ treeview.configure(yscrollcommand=verscrlbar.set)
 treeview['columns'] = ('name')
 
 treeview.column("#0", width=0, stretch=NO)
-treeview.column("name", anchor=CENTER, width=150)
-
 treeview.heading("#0", text="", anchor=CENTER)
+
+treeview.column("name", anchor=CENTER, width=150)
 treeview.heading("name", text="Genre name", anchor=CENTER)
 
 for e, i in enumerate(x):

@@ -1,7 +1,44 @@
 from tkinter import *
 from tkinter.ttk import Combobox
-import Files.Database
 from tkinter import messagebox as msbox
+import Files.Database
+
+
+def insert_book():
+    if not authors or not author.get():
+        msbox.showerror('Error', "Author is required! Add the new one if field is disabled")
+
+    elif not genres or not genre.get():
+        msbox.showerror('Error', "Genre is required! Add the new one if field is disabled")
+
+    elif not title.get():
+        msbox.showerror('Error', 'Title is required')
+
+    elif not number_of_pages.get():
+        msbox.showerror('Error', 'Number of pages is required')
+
+    else:
+        try:
+            pages_int = int(number_of_pages.get())
+
+        except:
+            msbox.showerror('Error', 'Number of pages must be an integer')
+
+        else:
+            if pages_int < 1:
+                msbox.showerror('Error', 'Number of pages must be greater than 0')
+
+            else:
+                try:
+                    Files.Database.insert(
+                        "books", "(id_author, id_genre, title, page_number)",
+                        [list_of_authors[author.get()], list_of_genres[genre.get()], title.get(), pages_int],
+                        __file__)
+                    msbox.showinfo('Success', 'Book has been added')
+
+                except:
+                    msbox.showerror('Error', 'Something went wrong')
+
 
 window = Tk()
 window.resizable(False, False)
@@ -14,11 +51,12 @@ labels = [
     "Genre:"
 ]
 
-query_authors = "SELECT id, first_name, last_name FROM authors"
-authors = Files.Database.select(query_authors)
+authors_query = "SELECT id, first_name, last_name FROM authors"
+authors = Files.Database.select(authors_query)
 
-query_authors = "SELECT id, name FROM genres"
-genres = Files.Database.select(query_authors)
+genres_query = "SELECT id, name FROM genres"
+
+genres = Files.Database.select(genres_query)
 
 for e, i in enumerate(labels):
     Label(
@@ -26,68 +64,45 @@ for e, i in enumerate(labels):
         text=labels[e],
     ).grid(row=e, column=0, sticky=W, padx=(20, 0), pady=(20, 0))
 
-def insert_book():
-    if not authors or not author.get():
-        msbox.showinfo('Error', "Author field is required! Add the new one if it's disabled")
-    elif not genres or not genre.get():
-        msbox.showinfo('Error', "Genre field is required! Add the new one if it's disabled")
-    elif not title.get():
-        msbox.showinfo('Error', 'Title field is required')
-    elif not number_of_pages.get():
-        msbox.showinfo('Error', 'Number of pages field is required')
-    else:
-        try:
-            x = int(number_of_pages.get())
-        except:
-            msbox.showinfo('Error', 'Number of pages field must be an integer')
-        else:
-            if x < 1:
-                msbox.showinfo('Error', 'Number of pages field must be greater than 0')
-            else:
-                Files.Database.insert(
-                    "books", "(id_author, id_genre, title, page_number)",
-                    [list_of_authors[author.get()], list_of_genres[genre.get()], title.get(), x],
-                    __file__)
-                msbox.showinfo('Success', 'Book has been added')
-
-
 title = Entry(window, width=40)
-title.grid(row=0, column=1, padx=(20, 20), pady=(20,0), ipadx=5, ipady=5)
-number_of_pages = Entry(window, width=40)
-number_of_pages.grid(row=1, column=1, padx=(20, 20), pady=(20,0), ipadx=5, ipady=5)
+title.focus()
+title.grid(row=0, column=1, padx=(20, 20), pady=(20, 0), ipadx=5, ipady=5)
 
+number_of_pages = Entry(window, width=40)
+number_of_pages.grid(row=1, column=1, padx=(20, 20), pady=(20, 0), ipadx=5, ipady=5)
+
+author = Combobox(window, width=37)
+author.grid(row=2, column=1, sticky=W, padx=(20, 20), pady=(20, 0), ipadx=5, ipady=5)
 
 if authors:
-    list_of_authors = dict(zip([i[1] + ' ' + i[2] for i in authors], [i[0] for i in authors]))
+    list_of_authors = dict(zip(
+        [i[1] + ' ' + i[2] for i in authors],
+        [i[0] for i in authors]
+    ))
+
     list_of_authors_keys = list(list_of_authors.keys())
 
-    default_author = StringVar()
-    default_author.set(list_of_authors_keys[0])
-    author = Combobox(window, state='readonly', textvariable=default_author, values=list(list_of_authors_keys))
-    author.config(width=37)
-    author.grid(row=2, column=1, sticky=W, padx=(20, 20), pady=(20, 0), ipadx=5, ipady=5)
-else:
-    author = Combobox(window, state='disabled')
-    author.config(width=37)
-    author.grid(row=2, column=1, sticky=W, padx=(20, 20), pady=(20, 0), ipadx=5, ipady=5)
+    author.config(state='readonly', values=list(list_of_authors_keys))
 
+else:
+    author.config(state='disabled')
+
+genre = Combobox(window, width=37)
+genre.grid(row=3, column=1, sticky=W, padx=(20, 20), pady=(20, 0), ipadx=5, ipady=5)
 
 if genres:
     list_of_genres = dict(zip([i[1] for i in genres], [i[0] for i in genres]))
+
     list_of_genres_keys = list(list_of_genres.keys())
 
-    default_genre = StringVar()
-    default_genre.set(list_of_genres_keys[0])
-    genre = Combobox(window, state='readonly', textvariable=default_genre, values=list(list_of_genres_keys))
-    genre.config(width=37)
-    genre.grid(row=3, column=1, sticky=W, padx=(20, 20), pady=(20, 0), ipadx=5, ipady=5)
+    genre.config(state='readonly', values=list_of_genres_keys)
+
 else:
-    genre = Combobox(window, state='disabled')
-    genre.config(width=37)
-    genre.grid(row=3, column=1, sticky=W, padx=(20, 20), pady=(20, 0), ipadx=5, ipady=5)
+    genre.config(state='disabled')
 
 
-button = Button(window, command=insert_book, text="Add book", bg="#007bff", fg="#fff").grid(row=11, column=0, columnspan=2, sticky=W+E, padx=(20, 20), pady=(20, 20), ipadx=5, ipady=5)
+insert_books_btn = Button(window, command=insert_book, text="Add book", bg="#D32F2F", fg="#fff")
+insert_books_btn.grid(row=11, column=0, columnspan=2, sticky=W+E, padx=(20, 20), pady=(20, 20), ipadx=5, ipady=5)
 window.bind('<Return>', insert_book)
 
 window.mainloop()

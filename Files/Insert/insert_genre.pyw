@@ -2,6 +2,25 @@ from tkinter import *
 from tkinter import messagebox as msbox
 import Files.Database
 
+
+def insert_genre():
+    if not genre.get():
+        msbox.showerror('Error', "Genre is required")
+
+    elif genre.get() in genres:
+        msbox.showerror('Error', 'This genre already exists')
+
+    else:
+        try:
+            Files.Database.insert(
+                "genres", "(name)", [genre.get()], __file__
+            )
+            msbox.showinfo('Success', 'Genre added')
+
+        except:
+            msbox.showerror('Error', 'Something went wrong')
+
+
 window = Tk()
 window.resizable(False, False)
 window.title('Add new genre')
@@ -19,20 +38,12 @@ for e, i in enumerate(labels):
         text=labels[e],
     ).grid(row=e, column=0, sticky=W, padx=(20, 0), pady=(20, 0))
 
-
-def insert(event=None):
-    if genre.get() in genres:
-        msbox.showinfo('Error', 'This genre already exists')
-    else:
-        Files.Database.insert("genres", "(name)", [genre.get()], __file__)
-        msbox.showinfo('Success', 'Genre added')
-
-
 genre = Entry(window, width=40)
 genre.focus()
 genre.grid(row=0, column=1, sticky=W, padx=(20, 20), pady=(20, 0), ipadx=5, ipady=5)
 
-button1 = Button(window, command=insert, text="Add", bg="#007bff", fg="#fff").grid(row=4, column=0, columnspan=2, sticky=W+E, padx=(20, 20), pady=(20, 20), ipadx=5, ipady=5)
-window.bind('<Return>', insert)
+insert_genre_btn = Button(window, command=insert_genre, text="Add genre", bg="#D32F2F", fg="#fff")
+insert_genre_btn.grid(row=4, column=0, columnspan=2, sticky=W+E, padx=(20, 20), pady=(20, 20), ipadx=5, ipady=5)
+window.bind('<Return>', insert_genre)
 
 window.mainloop()

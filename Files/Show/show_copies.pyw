@@ -8,6 +8,7 @@ window.title('Copies')
 query = "SELECT copy.id, title, first_name, last_name, available FROM copy " \
 "INNER JOIN books ON books.id = copy.id_book " \
 "INNER JOIN authors ON books.id_author = authors.id"
+
 x = Files.Database.select(query)
 x = [(i[0:4]) + [('Yes',) if i[4] == 1 else ('No',)][0] for i in x]
 treeview = ttk.Treeview(window)

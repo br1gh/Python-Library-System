@@ -1,12 +1,6 @@
-import datetime
 import os
 from tkinter import *
-from tkinter import ttk
 import Files.Database
-#
-inserts = {
-    "borrows": ["borrows", "(id_reader, id_copy, borrow_date, return_date)"]
-}
 
 Files.Database.create()
 
@@ -14,14 +8,8 @@ root = Tk()
 root.resizable(False, False)
 root.title('Library')
 
-buttonClicked = False
-
-full_date = datetime.datetime.now()
-date = [int(full_date.strftime("%" + i)) for i in ["y", "m", "d"]]
-
-
 def generate_label(root, text, bg, col):
-    Label(root, text=text, width=20, bg=bg, fg="#fff") \
+    Label(root, text=text, width=20, bg=bg, fg="#fff", relief='sunken') \
         .grid(row=0, column=col, columnspan=2, sticky=W + E, padx=(20, 20), pady=(20, 0), ipadx=5, ipady=5)
 
 show_content = generate_label(root, "Show content", "#0D47A1", 0)
@@ -58,7 +46,7 @@ register_button = Button(root, command=lambda: os.system("start pythonw Files/Us
 register_button.configure(text="Register", width=20, bg="#388E3C", fg="#fff")
 register_button.grid(row=1, column=4, sticky=W, padx=(20, 20), pady=(20, 0), ipadx=5, ipady=5)
 
-register_button = Button(root, command=lambda: os.system("start pythonw Files/User/login.pyw"))
+register_button = Button(root, command=lambda: os.system("start pythonw Files/User/user.pyw"))
 register_button.configure(text="Login", width=20, bg="#388E3C", fg="#fff")
 register_button.grid(row=2, column=4, sticky=W, padx=(20, 20), pady=(20, 0), ipadx=5, ipady=5)
 
