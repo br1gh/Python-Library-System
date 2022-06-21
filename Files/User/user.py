@@ -1,5 +1,8 @@
 from tkinter import *
 from tkinter.ttk import Combobox
+
+import bcrypt
+
 import Files.Database
 from tkinter import messagebox as msbox, ttk
 import datetime
@@ -275,7 +278,9 @@ def main():
             password_query = "SELECT id, password FROM readers WHERE login = '" + login.get() + "'"
             password_check = Files.Database.select(password_query)
 
-            if password.get() != password_check[0][1]:
+            user_password = password_check[0][1].encode('utf-8')
+
+            if not bcrypt.checkpw(password.get().encode('utf-8'), user_password):
                 msbox.showerror('Error', 'Incorrect password')
 
             else:

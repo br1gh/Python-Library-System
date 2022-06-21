@@ -3,6 +3,7 @@ from tkinter import *
 from tkinter import messagebox as msbox
 from tkcalendar import DateEntry
 import Files.Database
+import bcrypt
 
 
 def main():
@@ -69,10 +70,12 @@ def main():
 
         else:
             try:
+                pw = password.get().encode('utf-8')
+                hashed_pw = str(bcrypt.hashpw(pw, bcrypt.gensalt()))[2:-1]
                 Files.Database.insert(
                     "readers",
                     "(password, email, login, first_name, last_name, birth_date, city, street, house_number, phone)",
-                    pw_values[:1] + values,
+                    [hashed_pw] + values,
                     __file__)
                 msbox.showinfo('Success', 'Account created')
             except:
