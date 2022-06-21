@@ -45,8 +45,8 @@ def main():
         borrow_window.resizable(False, False)
         borrow_window.title('Borrow Book')
 
-        available_books_query = "SELECT copy.id, title, first_name, last_name FROM copy " \
-            "INNER JOIN books ON copy.id_book = books.id " \
+        available_books_query = "SELECT copies.id, title, first_name, last_name FROM copies " \
+            "INNER JOIN books ON copies.id_book = books.id " \
             "INNER JOIN authors ON authors.id = books.id_author WHERE available = 1"
 
         available_books = Files.Database.select(available_books_query)
@@ -92,8 +92,8 @@ def main():
 
         borrowed_books_query = "SELECT borrows.id, id_copy, title, first_name, last_name, borrow_date, return_date " \
             "FROM borrows " \
-            "INNER JOIN copy on copy.id = borrows.id_copy " \
-            "INNER JOIN books ON copy.id_book = books.id " \
+            "INNER JOIN copies on copies.id = borrows.id_copy " \
+            "INNER JOIN books ON copies.id_book = books.id " \
             "INNER JOIN authors ON books.id_author = authors.id " \
             "WHERE id_reader = " + str(user_id) + " AND available = 0 AND return_date IS NULL"
 
@@ -136,11 +136,11 @@ def main():
         borrowed_books_window = Tk()
         borrowed_books_window.title('Borrowed books')
 
-        all_borrowed_query = "SELECT copy.id, borrow_date, return_date, title, authors.first_name, authors.last_name " \
+        all_borrowed_query = "SELECT copies.id, borrow_date, return_date, title, authors.first_name, authors.last_name " \
                 "FROM borrows " \
                 "INNER JOIN readers ON readers.id = borrows.id_reader " \
-                "INNER JOIN copy ON copy.id = borrows.id_copy " \
-                "INNER JOIN books ON books.id = copy.id_book " \
+                "INNER JOIN copies ON copies.id = borrows.id_copy " \
+                "INNER JOIN books ON books.id = copies.id_book " \
                 "INNER JOIN authors ON books.id_author = authors.id " \
                 "WHERE readers.id = " + str(user_id)
 
@@ -158,11 +158,11 @@ def main():
         treeview.configure(yscrollcommand=verscrlbar.set)
 
         treeview['columns'] = (
-        'copy_d', 'borrow_date', 'return_date', 'title', 'author_first_name',
+        'copy_id', 'borrow_date', 'return_date', 'title', 'author_first_name',
         'author_last_name')
 
         columns = [
-            ["copy_d", "Copy ID"],
+            ["copy_id", "Copy ID"],
             ["borrow_date", "Borrow date"],
             ["return_date", "Return date"],
             ["title", "Title"],

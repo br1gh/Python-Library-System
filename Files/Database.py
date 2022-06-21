@@ -38,7 +38,7 @@ def create():
             title varchar,
             page_number int)''')
 
-        cur.execute('''CREATE TABLE copy(
+        cur.execute('''CREATE TABLE copies(
             id INTEGER PRIMARY KEY autoincrement,
             id_book int,
             available boolean)''')
@@ -80,7 +80,7 @@ def update_copy_available(id, value, file):
 
     con = sqlite3.connect(db_path + '\library.db')
     cur = con.cursor()
-    query = ("UPDATE copy SET available = " + str(value) + " WHERE id = " + str(id))
+    query = ("UPDATE copies SET available = " + str(value) + " WHERE id = " + str(id))
     cur.execute(query)
     con.commit()
     con.close()

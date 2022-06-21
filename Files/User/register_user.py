@@ -77,7 +77,7 @@ def main():
                     "(password, email, login, first_name, last_name, birth_date, city, street, house_number, phone)",
                     [hashed_pw] + values,
                     __file__)
-                msbox.showinfo('Success', 'Account created')
+                msbox.showinfo('Success', 'Account has been created')
             except:
                 msbox.showerror('Error', 'Something went wrong')
 
@@ -101,7 +101,7 @@ def main():
     last_name = Entry(window, width=40)
     last_name.grid(row=5, column=1, sticky=W, padx=(20, 20), pady=(20, 0), ipadx=5, ipady=5)
 
-    birth_date = DateEntry(window, width=37, date_pattern='YYYY-MM-DD')
+    birth_date = DateEntry(window, state='readonly', width=37, date_pattern='YYYY-MM-DD')
     birth_date.grid(row=6, column=1, sticky=W, padx=(20, 20), pady=(20, 0), ipadx=5, ipady=5)
 
     city = Entry(window, width=40)
@@ -116,7 +116,7 @@ def main():
     phone = Entry(window, width=40)
     phone.grid(row=10, column=1, sticky=W, padx=(20, 20), pady=(20, 0), ipadx=5, ipady=5)
 
-    register_btn = Button(window, command=insert, text="Register", bg="#1B5E20", fg="#fff")
+    register_btn = Button(window, command=insert, text="Register", bg="#388E3C", fg="#fff")
     register_btn.grid(row=11, column=0, columnspan=2, sticky=W+E, padx=(20, 20), pady=(20, 20), ipadx=5, ipady=5)
     window.bind('<Return>', insert)
 

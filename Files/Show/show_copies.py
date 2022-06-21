@@ -7,8 +7,8 @@ def main():
     window = Tk()
     window.title('Copies')
 
-    query = "SELECT copy.id, title, first_name, last_name, available FROM copy " \
-    "INNER JOIN books ON books.id = copy.id_book " \
+    query = "SELECT copies.id, title, first_name, last_name, available FROM copies " \
+    "INNER JOIN books ON books.id = copies.id_book " \
     "INNER JOIN authors ON books.id_author = authors.id"
 
     x = Files.Database.select(query)

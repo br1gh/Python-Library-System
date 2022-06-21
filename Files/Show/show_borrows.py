@@ -10,8 +10,8 @@ def main():
     query = "SELECT readers.first_name, readers.last_name, borrow_date, return_date, title, authors.first_name, authors.last_name " \
                    "FROM borrows " \
                    "INNER JOIN readers ON readers.id = borrows.id_reader " \
-                   "INNER JOIN copy ON copy.id = borrows.id_copy " \
-                   "INNER JOIN books ON books.id = copy.id_book " \
+                   "INNER JOIN copies ON copies.id = borrows.id_copy " \
+                   "INNER JOIN books ON books.id = copies.id_book " \
                    "INNER JOIN authors ON books.id_author = authors.id"
 
     x = Files.Database.select(query)

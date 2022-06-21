@@ -5,7 +5,7 @@ import Files.Database
 
 def main():
     window = Tk()
-    window.title('Copies')
+    window.title('Genres')
 
     query = "SELECT name FROM genres"
 

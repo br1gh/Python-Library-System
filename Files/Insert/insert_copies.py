@@ -28,7 +28,7 @@ def main():
                         try:
                             for _ in range(amount_int):
                                 Files.Database.insert(
-                                    "copy", "(id_book, available)",
+                                    "copies", "(id_book, available)",
                                     [list_of_books[book.get()], 1],
                                     __file__
                                 )
