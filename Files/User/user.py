@@ -17,9 +17,9 @@ def main():
             Files.Database.insert(
                 "borrows", "(id_reader, id_copy, borrow_date)",
                 [user_id, book, date],
-                __file__)
+            )
 
-            Files.Database.update_copy_available(book, 0, __file__)
+            Files.Database.update_copy_available(book, 0)
 
             msbox.showinfo('Success', 'Book has been borrowed')
 
@@ -31,8 +31,8 @@ def main():
         date = str(full_date.strftime('%Y-%m-%d %H:%M:%S'))
 
         try:
-            Files.Database.update_return_date(info[0], date, __file__)
-            Files.Database.update_copy_available(info[1], 1, __file__)
+            Files.Database.update_return_date(info[0], date)
+            Files.Database.update_copy_available(info[1], 1)
 
             msbox.showinfo('Success', 'Book has been returned')
 

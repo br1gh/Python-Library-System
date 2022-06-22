@@ -14,7 +14,7 @@ def main():
         else:
             try:
                 Files.Database.insert(
-                    "genres", "(name)", [genre.get()], __file__
+                    "genres", "(name)", [genre.get()]
                 )
                 msbox.showinfo('Success', 'Genre has been added')
 

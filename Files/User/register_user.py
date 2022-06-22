@@ -76,7 +76,7 @@ def main():
                     "readers",
                     "(password, email, login, first_name, last_name, birth_date, city, street, house_number, phone)",
                     [hashed_pw] + values,
-                    __file__)
+                )
                 msbox.showinfo('Success', 'Account has been created')
             except:
                 msbox.showerror('Error', 'Something went wrong')

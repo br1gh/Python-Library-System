@@ -17,7 +17,7 @@ def main():
                     "authors",
                     "(first_name, last_name, birth_date)",
                     [first_name.get(), last_name.get(), birth_date.get()],
-                    __file__)
+                )
 
                 msbox.showinfo('Success', 'Author has been added')
 

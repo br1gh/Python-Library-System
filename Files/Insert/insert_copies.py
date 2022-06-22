@@ -30,7 +30,6 @@ def main():
                                 Files.Database.insert(
                                     "copies", "(id_book, available)",
                                     [list_of_books[book.get()], 1],
-                                    __file__
                                 )
                             msbox.showinfo('Success', 'Added ' + str(amount_int) + ' copies of this book')
 

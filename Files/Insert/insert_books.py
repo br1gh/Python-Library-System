@@ -34,7 +34,7 @@ def main():
                         Files.Database.insert(
                             "books", "(id_author, id_genre, title, page_number)",
                             [list_of_authors[author.get()], list_of_genres[genre.get()], title.get(), pages_int],
-                            __file__)
+                        )
                         msbox.showinfo('Success', 'Book has been added')
 
                     except:
