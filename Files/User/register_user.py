@@ -82,7 +82,7 @@ def main():
                 msbox.showerror('Error', 'Something went wrong')
 
 
-    email = Entry(window, width=40,)
+    email = Entry(window, width=40)
     email.focus()
     email.grid(row=0, column=1, sticky=W, padx=(20, 20), pady=(20, 0), ipadx=5, ipady=5)
 

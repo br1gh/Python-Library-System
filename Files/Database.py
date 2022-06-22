@@ -2,7 +2,6 @@ import sqlite3
 import os.path
 from pathlib import Path
 
-
 def create():
     if not os.path.exists('library.db'):
         con = sqlite3.connect('library.db')
@@ -51,11 +50,10 @@ def create():
              return_date smalldatetime)''')
 
         con.commit()
-        print('Database created')
         con.close()
+        return 1
+    return 0
 
-    else:
-        print('Database already exists')
 
 def insert(table, columns, values, file):
     db_path = ''
